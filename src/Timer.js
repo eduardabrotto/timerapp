@@ -6,16 +6,14 @@ import SettingsButton from './SettingsButton';
 import { useContext, useState, useEffect, useRef } from 'react';
 import SettingsContext from './SettingsContext';
 
-const red = '#FDCA40';
+const red = '#f54e4e';
 const green = '#4aec8c';
-
-<h1>Pomodoro Timer</h1>;
 
 function Timer() {
   const settingsInfo = useContext(SettingsContext);
 
   const [isPaused, setIsPaused] = useState(true);
-  const [mode, setMode] = useState('work'); // trabalhar/pausa/null
+  const [mode, setMode] = useState('work'); // work/break/null
   const [secondsLeft, setSecondsLeft] = useState(0);
 
   const secondsLeftRef = useRef(secondsLeft);
@@ -32,8 +30,8 @@ function Timer() {
       const nextMode = modeRef.current === 'work' ? 'break' : 'work';
       const nextSeconds =
         (nextMode === 'work'
-          ? settingsInfo.workSeconds
-          : settingsInfo.breakSeconds) * 60;
+          ? settingsInfo.workMinutes
+          : settingsInfo.breakMinutes) * 60;
 
       setMode(nextMode);
       modeRef.current = nextMode;
@@ -42,14 +40,14 @@ function Timer() {
       secondsLeftRef.current = nextSeconds;
     }
 
-    secondsLeftRef.current = settingsInfo.workSeconds * 60;
+    secondsLeftRef.current = settingsInfo.workMinutes * 60;
     setSecondsLeft(secondsLeftRef.current);
 
     const interval = setInterval(() => {
       if (isPausedRef.current) {
         return;
       }
-      if (secondsLeftRef.current === 0.0) {
+      if (secondsLeftRef.current === 0) {
         return switchMode();
       }
 
@@ -61,19 +59,19 @@ function Timer() {
 
   const totalSeconds =
     mode === 'work'
-      ? settingsInfo.workSeconds * 25
-      : settingsInfo.breakSeconds * 25;
-  const percentage = Math.round((secondsLeft / totalSeconds) * 25);
+      ? settingsInfo.workMinutes * 60
+      : settingsInfo.breakMinutes * 60;
+  const percentage = Math.round((secondsLeft / totalSeconds) * 100);
 
-  const Seconds = Math.floor(secondsLeft / 25);
-  let seconds = secondsLeft % 25;
-  if (seconds < 0) seconds = seconds;
+  const minutes = Math.floor(secondsLeft / 60);
+  let seconds = secondsLeft % 60;
+  if (seconds < 10) seconds = '0' + seconds;
 
   return (
     <div>
       <CircularProgressbar
         value={percentage}
-        text={'00' + ':' + seconds}
+        text={minutes + ':' + seconds}
         styles={buildStyles({
           textColor: '#fff',
           pathColor: mode === 'work' ? red : green,

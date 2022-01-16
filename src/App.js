@@ -6,21 +6,22 @@ import SettingsContext from './SettingsContext';
 
 function App() {
   const [showSettings, setShowSettings] = useState(false);
-  const [workSeconds, setWorkSeconds] = useState(25);
-  const [breakSeconds, setBreakSeconds] = useState(5);
+  const [workMinutes, setWorkMinutes] = useState(0.5);
+  const [breakMinutes, setBreakMinutes] = useState(0.05);
 
   return (
     <main>
       <h1>Relógio Pomodoro</h1>
       <h3>Seja produtivo da melhor forma!</h3>
+      <br></br>
       <SettingsContext.Provider
         value={{
           showSettings,
           setShowSettings,
-          workSeconds,
-          breakSeconds,
-          setWorkSeconds,
-          setBreakSeconds,
+          workMinutes,
+          breakMinutes,
+          setWorkMinutes,
+          setBreakMinutes,
         }}
       >
         {showSettings ? <Settings /> : <Timer />}

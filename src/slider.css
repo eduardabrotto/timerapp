@@ -1,6 +1,6 @@
 .slider {
   height: 40px;
-  border: 2px solid var(--red);
+  border: 5px solid var(--red);
   border-radius: 20px;
 }
 
@@ -9,11 +9,11 @@
   cursor: pointer;
   width: 40px;
   height: 40px;
-  border-radius: 20px;
+  border-radius: 30px;
 }
 
 .slider.green {
-  border: 2px solid var(--green);
+  border: 5px solid var(--green);
 }
 .slider.green .thumb {
   background-color: var(--green);
